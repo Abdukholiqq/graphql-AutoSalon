@@ -22,6 +22,20 @@ export const resolvers = {
       const allCars = await CarsModels.find().populate("category")
       return allCars;
     },
+    carById:async (_:any,{carId}:{carId:any},{access_token}:{access_token:any}) => {
+      try{
+        const chekToken: any = jwt.verify(access_token, "autosalon");
+
+        if (!chekToken) {
+          return new GraphQLError("Token required !!!");
+        }
+        if (!chekToken?.isAdmin) {
+          return new GraphQLError("You are not admin");
+        }
+        const car = await CarsModels.findOne({_id:carId}).populate('category')
+        return car
+      }catch(error){}
+    }
   },
   Mutation: {
     addCars: async (

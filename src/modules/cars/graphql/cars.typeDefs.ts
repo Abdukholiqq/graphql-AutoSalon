@@ -3,8 +3,10 @@ import { resolvers } from "./cars.resolvers";
 export const typeDefs = `#graphql
 type Query{
  cars: [Cars]
+ carById(carId: ID): Cars
 }
 type Cars{
+  _id: ID
   Marka:String 
   Model: String 
   Tanirovka: String 
