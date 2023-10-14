@@ -4,8 +4,10 @@ exports.typeDefs = void 0;
 exports.typeDefs = `#graphql
 type Query{
  cars: [Cars]
+ carById(carId: ID): Cars
 }
 type Cars{
+  _id: ID
   Marka:String 
   Model: String 
   Tanirovka: String 

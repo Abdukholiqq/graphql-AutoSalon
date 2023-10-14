@@ -33,6 +33,20 @@ exports.resolvers = {
             const allCars = yield cars_model_1.CarsModels.find().populate("category");
             return allCars;
         }),
+        carById: (_, { carId }, { access_token }) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const chekToken = jsonwebtoken_1.default.verify(access_token, "autosalon");
+                if (!chekToken) {
+                    return new graphql_1.GraphQLError("Token required !!!");
+                }
+                if (!(chekToken === null || chekToken === void 0 ? void 0 : chekToken.isAdmin)) {
+                    return new graphql_1.GraphQLError("You are not admin");
+                }
+                const car = yield cars_model_1.CarsModels.findOne({ _id: carId }).populate('category');
+                return car;
+            }
+            catch (error) { }
+        })
     },
     Mutation: {
         addCars: (_, { Marka, Model, Tanirovka, Motor, Year, Color, Narxi, Distance, GearBook, Description, files }, { access_token }) => __awaiter(void 0, void 0, void 0, function* () {
